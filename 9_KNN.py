@@ -3,10 +3,13 @@ import numpy as np
 from sklearn.metrics import *
 from sklearn.model_selection import *
 from sklearn.linear_model import *
+from sklearn.tree import *
 from sklearn.ensemble import *
 from sklearn.svm import *
-from sklearn.tree import *
+from sklearn.neighbors import *
+from scipy.stats import *
 from sklearn.preprocessing import *
+
 
 train = pd.read_csv('dataset/PimaIndiansDiabetes2.csv')
 
@@ -21,7 +24,7 @@ print(train.isna().sum())
 x = train.drop('diabetes',axis=1)
 y = train['diabetes']
 
-model = SVC(kernel='linear')
+model = KNeighborsClassifier(n_neighbors=20) #보통 데이터 개수의 제곱근
 
 trainX, testX, trainY, testY = train_test_split(x,y, test_size = 0.2)
 
