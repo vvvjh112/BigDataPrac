@@ -57,3 +57,62 @@ result = wilcoxon(df['Bwt']-2.1, alternative='two-sided')
 #기준값을 뺌
 print(result)
 #대립가설채택
+
+
+#쌍체표본 T검정
+#한 집단에서 처치를 받기 전과 후의 차이를 알아보기 위해 사용하는 검정 방법
+#ttest_rel(x,y,alternative)
+#종속변수는 연속형이어야 하며, 정규성 가정을 만족해야 한다.
+
+import pandas as pd
+from scipy.stats import *
+
+data = pd.DataFrame({'before':[5,3,8,4,3,2,1],'after':[8,6,6,5,8,7,3]})
+
+result = ttest_rel(data['before'],data['after'],alternative = 'less')
+
+print(result)
+#대립가설 채택
+
+#독립표본 T검정
+#데이터가 서로 다른 모집단에서 추출된 경우 사용할 수 있는 검정
+#두 집단의 평균 차이를 검정 / 정규성, 등분산성 가정이 만족되는지 확인
+#독립변수는 범주형, 종속변수는 연속형이어야 한다.
+#등분산 검정 -> levene(sample1, sample2, center) / center -> median or mean
+#ttest_ind(sample1, sample2, alternative, equal_var)
+
+import pandas as pd
+from scipy.stats import *
+#성별에 따른 몸무게 변화의 차이가 있다 없다
+cats = pd.read_csv('dataset/cats.csv')
+group1 = cats[cats['Sex']=="F"]['Bwt']
+group2 = cats[cats['Sex']=="M"]['Bwt']
+
+result = levene(group1,group2)
+print(result) #등분산성 만족x
+result = ttest_ind(group1, group2, equal_var = False)
+print(result)
+# 대립가설 채택
+
+
+print("F검정")
+#두 표본의 분산에 대한 차이가 통계적으로 유의한가를 판별하는 검정
+#f.cdf(x, dfn, dfd) / F검정 통계량, F분포의 분자의 자유도, F분포의 본모의 자유도
+
+import numpy as np
+df1 = np.array([1,2,3,4,6])
+df2 = np.array([4,5,6,7,8])
+
+print(np.var(df1), np.var(df2))
+
+def f_test(x, y):
+    if np.var(x, ddof=1) < np.var(y,ddof=1):
+        x,y = y,x
+    f_value = np.var(x, ddof=1) / np.var(y,ddof=1)
+    x_dof = x.size -1
+    y_dof = y.size -1
+    p_value = (1-f.cdf(f_value, x_dof, y_dof)) * 2
+    return f_value, p_value
+
+result = f_test(df1, df2)
+print(result)
