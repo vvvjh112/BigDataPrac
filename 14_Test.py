@@ -116,3 +116,27 @@ def f_test(x, y):
 
 result = f_test(df1, df2)
 print(result)
+
+#카이제곱검정
+print("카이제곱 검정")
+#범주형 자료간의 차이를 보여주는 분석 방법 / 관찰된 빈도가 기대되는 빈도와 유의하게 다른지 검정
+# 교차분석은 적합도검정, 독립성 검정, 동질성검정 3가지로 분류
+
+#적합도검정 (자유도 = 범주의 수 - 1)
+# 표본 집단의 분포가 주어진 특정분포를 따르고 있는지를 검정
+import numpy as np
+from scipy.stats import *
+#남학생 90명 여학생 160명이 있는데, 비율이 45%와 55%인지 확인
+num = np.array([90,160])
+expected = np.array([0.45,0.55])*np.sum(num) # 250명중 45%가 남자 55%가 여자이기때문
+
+result = chisquare(num, f_exp=expected)
+print(result)
+#대립가설채택
+
+
+#독립성 검정
+# 변수가 두 개 이상의 범주로 분할되어 있을 때 사용되며, 각 범주가 서로 독립적인지 서로 연관성 있는지 검정
+#자유도 = (범주1의 수 -1) * (범주2의 수 -1)
+import pandas as pd
+from scipy.stats import *
