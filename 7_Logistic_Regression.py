@@ -24,9 +24,17 @@ trainX, testX, trainY, testY = train_test_split(x,y,test_size=0.2)
 
 model = LogisticRegression(max_iter=1000)
 
+# md = LogisticRegression()
+# params = {'max_iter' : [200,400,600,800,1000,1200]}
+# gv = GridSearchCV(md,params, n_jobs = -1, cv = 4)
+# gv.fit(trainX,trainY)
+# print("GV",gv.best_params_)
+
 model.fit(trainX,trainY)
 
 pred = model.predict(testX)
+
+
 
 print(confusion_matrix(testY,pred,labels=[1,0]))
 print("Recall",recall_score(testY,pred))
