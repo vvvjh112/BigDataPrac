@@ -36,16 +36,31 @@
 # print(round(abs(result1-result2),2))
 
 #작업형 1 - 3
+# import pandas as pd
+# import numpy as np
+#
+# data = pd.read_csv('dataset/P210203.csv')
+#
+#
+# mini = data['charges'].mean()-(data['charges'].std()*1.5)
+# maxi = data['charges'].mean()+(data['charges'].std()*1.5)
+#
+# result = data[data['charges']<= mini]
+# result = data[data['charges']>= maxi]
+#
+# print(int(result['charges'].sum()))
+
+#작업형 1 - 4
 import pandas as pd
 import numpy as np
 
-data = pd.read_csv('dataset/P210203.csv')
+data = pd.read_csv('dataset/P210301.csv')
 
+cut = int(len(data)*0.7)
 
-mini = data['charges'].mean()-(data['charges'].std()*1.5)
-maxi = data['charges'].mean()+(data['charges'].std()*1.5)
+result = data.iloc[:cut,:]
 
-result = data[data['charges']<= mini]
-result = data[data['charges']>= maxi]
+result = result.dropna()
 
-print(int(result['charges'].sum()))
+answer = np.percentile(result['housing_median_age'],25)
+print(int(answer))
