@@ -51,16 +51,28 @@
 # print(int(result['charges'].sum()))
 
 #작업형 1 - 4
+# import pandas as pd
+# import numpy as np
+#
+# data = pd.read_csv('dataset/P210301.csv')
+#
+# cut = int(len(data)*0.7)
+#
+# result = data.iloc[:cut,:]
+#
+# result = result.dropna()
+#
+# answer = np.percentile(result['housing_median_age'],25)
+# print(int(answer))
+
+#작업형 1 - 5
 import pandas as pd
 import numpy as np
 
-data = pd.read_csv('dataset/P210301.csv')
-
-cut = int(len(data)*0.7)
-
-result = data.iloc[:cut,:]
-
-result = result.dropna()
-
-answer = np.percentile(result['housing_median_age'],25)
-print(int(answer))
+data = pd.read_csv('dataset/P210302.csv')
+result = []
+print(data.isna().sum())
+for i in data.columns:
+    leng = data[i].isna().sum()/len(data[i])
+    result.append(leng)
+print(result)
