@@ -220,3 +220,19 @@
 # answer = answer.iloc[0]
 # print(answer)
 
+#작업형 1 - 15
+import pandas as pd
+import numpy as np
+import datetime
+
+data = pd.read_csv('dataset/P230603.csv')
+data1 = pd.read_csv('dataset/P230603.csv')
+data['년월'] = pd.to_datetime(data['년월'])
+data['년월'] = data['년월'].apply(lambda x: datetime.datetime.strftime(x,"%y"))
+data['범죄총계'] = data['강력범'] + data['절도범'] + data['폭력범'] + data['지능범'] + data['풍속범'] + data['기타형사범']
+result = data.groupby("년월").sum("범죄총계")
+result = result.sort_values("범죄총계",ascending = False)
+df = result.head(1)
+answer = int(result["범죄총계"].iloc[0]/12)
+
+print(answer)
