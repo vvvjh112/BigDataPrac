@@ -116,6 +116,23 @@
 
 #작업형 1 - 9
 # import pandas as pd
+# import pandas as np
+#
+#
+# data = pd.read_csv('dataset/P220403.csv')
+# data = data[data['country'] == "United Kingdom"]
+# # print(data['date_added'].head())
+# data['date_added'] = pd.to_datetime(data['date_added'], format = "%B %d, %Y")
+# data = data[data['date_added'].dt.year == 2018]
+# data = data[data['date_added'].dt.month == 1]
+#
+# answer = len(data)
+#
+# print(answer)
+
+
+#작업형 1 - 10
+# import pandas as pd
 # import numpy as np
 #
 # data = pd.read_csv('dataset/P220501.csv')
@@ -125,3 +142,65 @@
 # data = data[data['2L가격']>0]
 # answer = int(round(data['2L가격'].mean(),0))
 # print(answer)
+
+
+#작업형 1 - 11
+# import pandas as pd
+# import numpy as np
+#
+# data = pd.read_csv('dataset/P220502.csv')
+# #무게 / 키(m)^2
+# #18.5 < bmi 저체중 18.5<= bmi <23 정상 23<= bmi < 25 위험 25<= bmi 비만
+# #정상체중범위 구간의 인원과 위험체중 범위의 인원 ㅊ ㅏ이 절댓값
+#
+# def bmi(bm):
+#
+#     if bm < 18.5:
+#         return "저체중"
+#     elif bm < 23:
+#         return "정상"
+#     elif bm <25:
+#         return "위험"
+#     else:
+#         return "비만"
+#
+# data['bmi'] = data['Weight'] / (pow((data['Height']/100),2) )
+# data['tmp'] = data['bmi'].apply(bmi)
+# print(data['bmi'].head())
+# normal = len(data[data['tmp'] == "정상"])
+# warning = len(data[data['tmp'] == "위험"])
+#
+# answer = int(abs(normal-warning))
+#
+# print(answer)
+
+#작업형 1 - 12
+# import pandas as pd
+#
+# data = pd.read_csv('dataset/P220503.csv')
+# print(data.columns)
+# data['tmp'] = data['전입학생수(계)'] - data['전출학생수(계)']
+#
+# data = data.sort_values('tmp',ascending = False)
+# answer = data['전체학생수(계)'].iloc[0]
+# print(answer)
+
+
+#작업형 1-13
+import pandas as pd
+import datetime
+
+data = pd.read_csv('dataset/P230601.csv')
+
+data['신고일시'] = pd.to_datetime(data['신고일시'])
+data['출동일시'] = pd.to_datetime(data['출동일시'])
+
+data['time'] = (data['출동일시'] - data['신고일시']).dt.total_seconds()
+
+data = data.groupby([data['출동소방서'],data['신고일시'].dt.year,data['신고일시'].dt.month]).mean('time')
+
+data = data.sort_values('time',ascending = False)
+result = data['time'].head(1)
+answer = int(round(result.iloc[0]/60,0))
+
+print(answer)
