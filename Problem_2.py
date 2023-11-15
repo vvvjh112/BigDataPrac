@@ -69,4 +69,4 @@ print(pred)
 result = pd.DataFrame({"ID":tmp['ID'], "pred":pred[:,1]})
 print(result)
 
-result.to_csv("Problem2-1.csv",index=False)
+result.to_csv("Result/Problem2-1.csv",index=False)
