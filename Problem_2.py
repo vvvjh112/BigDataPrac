@@ -135,3 +135,57 @@
 #     tmp.append(i)
 # result = pd.DataFrame({'index': tmp,'y_pred' : pred_proba[:,1]})
 # result.to_csv('Result/Problem2-2.csv',index=False)
+
+#2 - 3
+import pandas as pd
+import numpy as np
+
+train = pd.read_csv('dataset/P220404-01.csv')
+test = pd.read_csv('dataset/P220404-02.csv')
+test_id = test['ID']
+
+# 'ID', 'Gender', 'Ever_Married', 'Age', 'Graduated', 'Profession',
+#        'Work_Experience', 'Spending_Score', 'Family_Size', 'Var_1',
+#        'Segmentation'
+
+ary = ['Gender','Ever_Married','Graduated','Profession','Spending_Score','Var_1']
+from sklearn.preprocessing import *
+train['Segmentation'] = train['Segmentation'].astype('category')
+for i in ary:
+    train[i] = LabelEncoder().fit_transform(train[i])
+    test[i] = LabelEncoder().fit_transform(test[i])
+
+print(train.info())
+
+
+from sklearn.model_selection import *
+from sklearn.ensemble import *
+from sklearn.metrics import *
+
+train = train.drop(['ID'], axis =1 )
+test = test.drop('ID',axis = 1)
+
+x= train.drop('Segmentation',axis =1)
+y = train['Segmentation']
+
+trainX, testX, trainY, testY = train_test_split(x,y,test_size = 0.2)
+
+model = RandomForestClassifier(n_estimators = 600, max_depth = 6)
+
+model.fit(trainX,trainY)
+
+pred = model.predict(testX)
+
+print(pred)
+
+
+print("f1score",f1_score(testY,pred,labels=['A','B','C','D'],average='macro'))
+
+model.fit(x,y)
+
+pred_result = model.predict(test)
+
+
+result = pd.DataFrame({"ID":test_id, "pred" : pred_result})
+
+result.to_csv("Result/Problem_2-3.csv",index=False)
