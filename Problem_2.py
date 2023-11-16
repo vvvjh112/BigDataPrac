@@ -274,18 +274,18 @@ from sklearn.ensemble import *
 # print(train[['talk_time','three_g']].head())
 def min_max(x):
     return (x-min(x))/(max(x)-min(x))
-train['painrice_range'] = train['price_range'].astype('category')
+train['price_range'] = train['price_range'].astype('category')
 for i in category_lst:
     train[i] = train[i].astype('category')
     test[i] = test[i].astype('category')
 x = train.drop('price_range',axis =1)
 y = train['price_range']
 
-x = pd.get_dummies(x)
+# x = pd.get_dummies(x)
 
 trainX, testX, trainY, testY = train_test_split(x,y,test_size=0.2)
 
-model = RandomForestClassifier(n_estimators = 600, max_depth = 5)
+model = RandomForestClassifier(n_estimators = 500, max_depth = 5)
 
 model.fit(trainX,trainY)
 
@@ -293,4 +293,10 @@ pred = model.predict(testX)
 
 print('Accuracy',accuracy_score(testY,pred))
 
-# print('macro_f1',f1_score(testY,pred, labels = [0,1,2,3],average = 'macro'))
+print('macro_f1',f1_score(testY,pred, labels = [0,1,2,3],average = 'macro'))
+
+pred = model.predict(test.drop('id',axis=1))
+
+result = pd.DataFrame({"pred":pred})
+
+result.to_csv("Result/Problem2-5.csv",index = False)
