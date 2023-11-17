@@ -145,3 +145,18 @@
 # result = ttest_rel(data['after'],data['before'],alternative = 'less')
 #
 # print(result)
+
+#3-2
+import pandas as pd
+import numpy as np
+from scipy.stats import *
+
+data = pd.read_csv('dataset/M1-6.csv')
+
+a = shapiro(data['Temp'])
+print(a)
+# print(help(ttest_1samp))
+# result = ttest_1samp(data['Temp'],popmean=75)
+
+result = wilcoxon(data['Temp'])
+print(result)
