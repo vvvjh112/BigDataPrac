@@ -136,3 +136,12 @@
 # result.to_csv("Result/exam2.csv",index=False)
 
 #3-1
+# import pandas as pd
+# import numpy as np
+#
+# data = pd.DataFrame({'before':[200,210,190,180,175],'after':[180,175,160,150,160]})
+#
+# from scipy.stats import *
+# result = ttest_rel(data['after'],data['before'],alternative = 'less')
+#
+# print(result)
