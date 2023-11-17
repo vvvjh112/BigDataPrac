@@ -285,7 +285,7 @@ y = train['price_range']
 
 trainX, testX, trainY, testY = train_test_split(x,y,test_size=0.2)
 
-model = RandomForestClassifier(n_estimators = 500, max_depth = 5)
+model = RandomForestClassifier(n_estimators = 600, max_depth = 4)
 
 model.fit(trainX,trainY)
 
