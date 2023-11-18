@@ -119,22 +119,22 @@
 # # print(f_test)
 
 #3-2
-import pandas as pd
-import numpy as np
-from scipy.stats import *
-import scipy.stats
-data = np.array([340,540])
-data1 = np.array([880*0.35,880*0.65])
-# print(dir(scipy.stats))
-# print(help(chisquare))
-result = chisquare(data,data1)
-answer_1 = round(result.statistic,5)
-answer_2 = round(result.pvalue, 5)
-if result.pvalue < 0.05:
-    answer_3 = "기각"
-else:
-    answer_3 = "채택"
-
-print(answer_1)
-print(answer_2)
-print(answer_3)
+# import pandas as pd
+# import numpy as np
+# from scipy.stats import *
+# import scipy.stats
+# data = np.array([340,540])
+# data1 = np.array([880*0.35,880*0.65])
+# # print(dir(scipy.stats))
+# # print(help(chisquare))
+# result = chisquare(data,data1)
+# answer_1 = round(result.statistic,5)
+# answer_2 = round(result.pvalue, 5)
+# if result.pvalue < 0.05:
+#     answer_3 = "기각"
+# else:
+#     answer_3 = "채택"
+#
+# print(answer_1)
+# print(answer_2)
+# print(answer_3)
