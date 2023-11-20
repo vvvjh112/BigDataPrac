@@ -140,3 +140,7 @@ print(result)
 #자유도 = (범주1의 수 -1) * (범주2의 수 -1)
 import pandas as pd
 from scipy.stats import *
+
+#a = pd.read_csv('데이터.csv')
+# data = pd.crosstab(a[0],a[1])
+# chi2_contingency(data)
