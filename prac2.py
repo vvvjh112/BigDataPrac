@@ -214,15 +214,160 @@
 
 
 #1-5
+# import pandas as pd
+# import numpy as np
+#
+# data = pd.read_csv('dataset/P230603.csv')
+# print(data.columns)
+# data['년월'] = pd.to_datetime(data['년월'])
+# data['합계'] = data['강력범'] + data['절도범'] + data['폭력범'] + data['지능범'] + data['풍속범'] + data['기타형사범']
+# group = data.groupby([data['년월'].dt.year]).sum('합계')
+# group = group.sort_values('합계',ascending = False).head(1)
+# data = data[data['년월'].dt.year == 2013]
+# answer = int(round(data['합계'].mean(),0))
+# print(answer)
+
+
+
+
+##############################################################
+
+#2-1
+# import pandas as pd
+# import numpy as np
+#
+# from sklearn.preprocessing import *
+# from sklearn.model_selection import *
+# from sklearn.ensemble import *
+# from sklearn.metrics import *
+#
+# train = pd.read_csv('dataset/P210204-01.csv')
+# test = pd.read_csv('dataset/P210204-02.csv')
+# test_id = test['ID']
+# test = test.drop('ID',axis = 1)
+# print(train.info())
+#
+# cate_lst = ['Warehouse_block','Mode_of_Shipment','Product_importance','Gender']
+#
+# train['Reached.on.Time_Y.N'] = train['Reached.on.Time_Y.N'].astype('category')
+# for i in cate_lst :
+#     train[i] = LabelEncoder().fit_transform(train[i])
+#     test[i] = LabelEncoder().fit_transform(test[i])
+#     train[i] = train[i].astype('category')
+#     test[i] = test[i].astype('category')
+#
+# print(train.isna().sum())
+# print(test.isna().sum())
+#
+# x = train.drop(['ID','Reached.on.Time_Y.N'],axis = 1)
+# y = train['Reached.on.Time_Y.N']
+# trainX, testX, trainY, testY = train_test_split(x,y,test_size = 0.2)
+#
+# model = RandomForestClassifier(n_estimators = 500, max_depth = 6)
+#
+# model.fit(trainX,trainY)
+#
+# pred = model.predict(testX)
+#
+# print("Accuracy",accuracy_score(testY,pred))
+# print("f1score",f1_score(testY,pred))
+# print("Roc_Auc",roc_auc_score(testY,pred))
+#
+# result = model.predict_proba(test)
+#
+# tocsv = pd.DataFrame({'ID' : test_id ,'pred':result[:,1]})
+#
+# tocsv.to_csv("Result/수험번호2-1.csv",index = False)
+
+
+# 2 -2
+# import pandas as pd
+# import numpy as np
+#
+# from sklearn.metrics import *
+# from sklearn.preprocessing import *
+# from sklearn.model_selection import *
+# from sklearn.ensemble import *
+#
+# train = pd.read_csv('dataset/P210304-01.csv')
+# test = pd.read_csv('dataset/P210304-02.csv')
+# test_X = test['X']
+# test = test.drop('X',axis = 1)
+# print(train.info())
+#
+# cate_lst = ['Employment Type','GraduateOrNot','FrequentFlyer','EverTravelledAbroad']
+# train['TravelInsurance'] = train['TravelInsurance'].astype('category')
+# for i in cate_lst:
+#     train[i] = LabelEncoder().fit_transform(train[i])
+#     test[i] = LabelEncoder().fit_transform(test[i])
+#     train[i] = train[i].astype('category')
+#     test[i] = test[i].astype('category')
+#
+# print(train.isna().sum())
+# print(test.isna().sum())
+#
+# x = train.drop(['X','TravelInsurance'], axis = 1)
+# y = train['TravelInsurance']
+#
+# trainX, testX, trainY, testY = train_test_split(x,y,test_size = 0.2)
+#
+# model = RandomForestClassifier(n_estimators = 400, max_depth = 5)
+#
+# model.fit(trainX,trainY)
+#
+# pred = model.predict(testX)
+#
+# print("Accuracy",accuracy_score(testY,pred))
+# print("f1_score",f1_score(testY,pred))
+# print("roc_auc",roc_auc_score(testY,pred))
+#
+# result = model.predict_proba(test)
+#
+# csv = pd.DataFrame({'index':test_X,'y_pred':result[:,1]})
+# csv.to_csv("Result/수험번호2-2.csv",index = False)
+
+#2-3
 import pandas as pd
 import numpy as np
+from sklearn.metrics import *
+from sklearn.preprocessing import *
+from sklearn.model_selection import *
+from sklearn.ensemble import *
 
-data = pd.read_csv('dataset/P230603.csv')
-print(data.columns)
-data['년월'] = pd.to_datetime(data['년월'])
-data['합계'] = data['강력범'] + data['절도범'] + data['폭력범'] + data['지능범'] + data['풍속범'] + data['기타형사범']
-group = data.groupby([data['년월'].dt.year]).sum('합계')
-group = group.sort_values('합계',ascending = False).head(1)
-data = data[data['년월'].dt.year == 2013]
-answer = int(round(data['합계'].mean(),0))
-print(answer)
+train = pd.read_csv('dataset/P220404-01.csv')
+test = pd.read_csv('dataset/P220404-02.csv')
+test_id = test['ID']
+test= test.drop('ID',axis = 1)
+
+print(train.info())
+
+cate_lst= ['Gender','Ever_Married','Graduated','Profession','Spending_Score','Var_1','Segmentation']
+
+for i in cate_lst:
+    if i == 'Segmentation':
+        # train[i] = LabelEncoder().fit_transform(train[i])
+        train[i] = train[i].astype('category')
+    else:
+        train[i] = LabelEncoder().fit_transform(train[i])
+        train[i] = train[i].astype('category')
+        test[i] = LabelEncoder().fit_transform(test[i])
+        test[i] = test[i].astype('category')
+train['Spending_Score'] = minmax_scale(train['Spending_Score'])
+test['Spending_Score'] = minmax_scale(test['Spending_Score'])
+print(train.isna().sum())
+print(test.isna().sum())
+
+x = train.drop(['ID','Segmentation'],axis = 1)
+y = train['Segmentation']
+
+trainX, testX, trainY, testY = train_test_split(x,y,test_size= 0.2)
+
+model = RandomForestClassifier(n_estimators = 600, max_depth = 6)
+
+model.fit(trainX,trainY)
+
+pred = model.predict(testX)
+
+print("Accuracy",accuracy_score(testY,pred))
+# print("roc_auc",roc_auc_score(testY,pred))
+print("f1score",f1_score(testY,pred,labels=['A','B','C','D'],average = 'macro'))
