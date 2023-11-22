@@ -201,3 +201,28 @@
 # answer = int(round(result,0))
 # print(answer)
 
+#1-14
+# import pandas as pd
+# # import numpy as np
+# #
+# # data = pd.read_csv('dataset/P230602.csv')
+# # data['sum'] = data['student_1']+ data['student_2']+data['student_3']+data['student_4']+data['student_5']+data['student_6']
+# # data['ratio'] = data['sum'] / data['teacher']
+# # data = data.sort_values('ratio',ascending = False).head(1)
+# # answer = data['teacher'].iloc[0]
+# # print(answer)
+
+
+#1-5
+import pandas as pd
+import numpy as np
+
+data = pd.read_csv('dataset/P230603.csv')
+print(data.columns)
+data['년월'] = pd.to_datetime(data['년월'])
+data['합계'] = data['강력범'] + data['절도범'] + data['폭력범'] + data['지능범'] + data['풍속범'] + data['기타형사범']
+group = data.groupby([data['년월'].dt.year]).sum('합계')
+group = group.sort_values('합계',ascending = False).head(1)
+data = data[data['년월'].dt.year == 2013]
+answer = int(round(data['합계'].mean(),0))
+print(answer)
