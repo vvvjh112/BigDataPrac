@@ -327,47 +327,164 @@
 # csv.to_csv("Result/수험번호2-2.csv",index = False)
 
 #2-3
+# import pandas as pd
+# import numpy as np
+# from sklearn.metrics import *
+# from sklearn.preprocessing import *
+# from sklearn.model_selection import *
+# from sklearn.ensemble import *
+#
+# train = pd.read_csv('dataset/P220404-01.csv')
+# test = pd.read_csv('dataset/P220404-02.csv')
+# test_id = test['ID']
+# test= test.drop('ID',axis = 1)
+#
+# print(train.info())
+#
+# cate_lst= ['Gender','Ever_Married','Graduated','Profession','Spending_Score','Var_1','Segmentation']
+#
+# for i in cate_lst:
+#     if i == 'Segmentation':
+#         # train[i] = LabelEncoder().fit_transform(train[i])
+#         train[i] = train[i].astype('category')
+#     else:
+#         train[i] = LabelEncoder().fit_transform(train[i])
+#         train[i] = train[i].astype('category')
+#         test[i] = LabelEncoder().fit_transform(test[i])
+#         test[i] = test[i].astype('category')
+# train['Spending_Score'] = minmax_scale(train['Spending_Score'])
+# test['Spending_Score'] = minmax_scale(test['Spending_Score'])
+# print(train.isna().sum())
+# print(test.isna().sum())
+#
+# x = train.drop(['ID','Segmentation'],axis = 1)
+# y = train['Segmentation']
+#
+# trainX, testX, trainY, testY = train_test_split(x,y,test_size= 0.2)
+#
+# model = RandomForestClassifier(n_estimators = 600, max_depth = 6)
+#
+# model.fit(trainX,trainY)
+#
+# pred = model.predict(testX)
+#
+# print("Accuracy",accuracy_score(testY,pred))
+# # print("roc_auc",roc_auc_score(testY,pred))
+# print("f1score",f1_score(testY,pred,labels=['A','B','C','D'],average = 'macro'))
+
+#2-4
+# import pandas as pd
+# import numpy as np
+#
+# train = pd.read_csv('dataset/P220504-01.csv')
+# test = pd.read_csv('dataset/P220504-02.csv')
+#
+# from sklearn.preprocessing import *
+# from sklearn.metrics import *
+# from sklearn.model_selection import *
+# from sklearn.ensemble import *
+#
+# def minmax(x):
+#     return (x-min(x))/(max(x)-min(x))
+# train['mileage'] = minmax(train['mileage'])
+# test['mileage'] = minmax(test['mileage'])
+#
+# cate_lst = ['engineSize','model','transmission','fuelType']
+# for i in cate_lst:
+#     train[i] = LabelEncoder().fit_transform(train[i])
+#     test[i] = LabelEncoder().fit_transform(test[i])
+#     train[i] = train[i].astype('category')
+#     test[i] = test[i].astype('category')
+#
+# train['price'] = train['price'].astype(int)
+#
+# print(train.info())
+#
+# print(train.head())
+#
+# print(train.isna().sum())
+# print(test.isna().sum())
+#
+# x = train.drop('price',axis = 1)
+# y = train['price']
+#
+# trainX, testX, trainY, testY = train_test_split(x,y,test_size = 0.2)
+#
+# from sklearn.linear_model import *
+# model1 = RandomForestRegressor()
+# model2 = LinearRegression()
+#
+# model1.fit(trainX,trainY)
+# model2.fit(trainX,trainY)
+#
+# pred1 = model1.predict(testX)
+# pred2 = model2.predict(testX)
+#
+# print("RMSE",mean_squared_error(testY,pred1,squared = False)," ",mean_squared_error(testY,pred2,squared=False))
+#
+# result = model1.predict(test)
+#
+# answer = pd.DataFrame({'pred':result})
+#
+# answer.to_csv("Result/수험번호2-4.csv",index= False)
+
+#2-5
+# import pandas as pd
+# import numpy as np
+#
+# train = pd.read_csv('dataset/P230604-01.csv')
+# test = pd.read_csv('dataset/P230604-02.csv')
+#
+# print(train.columns)
+#
+# from sklearn.preprocessing import *
+# from sklearn.model_selection import *
+# from sklearn.metrics import *
+# from sklearn.ensemble import *
+#
+# cate_lst = ['blue','dual_sim','four_g','int_memory','three_g','touch_screen','wifi']
+# train['price_range'] = train['price_range'].astype('category')
+# for i in cate_lst:
+#     train[i] = train[i].astype('category')
+#     test[i] = test[i].astype('category')
+#     train[i] = LabelEncoder().fit_transform(train[i])
+#     test[i] = LabelEncoder().fit_transform(test[i])
+#
+# print(train.isna().sum())
+#
+# x = train.drop('price_range',axis = 1)
+# y = train['price_range']
+#
+# trainX, testX, trainY, testY = train_test_split(x,y,test_size = 0.3)
+#
+# model = RandomForestClassifier()
+#
+# model.fit(trainX,trainY)
+#
+# pred = model.predict(testX)
+#
+#
+# print("f1_score",f1_score(testY,pred,labels = [0,1,2,3], average = 'macro'))
+# print("Accuracy",accuracy_score(testY,pred))
+#
+# test_id = test['id']
+# test = test.drop('id',axis = 1)
+#
+# result = model.predict(test)
+#
+# answer = pd.DataFrame({ 'id' : test_id,'pred' : result})
+#
+# answer.to_csv("Result/수험번호2-5.csv",index = False)
+
+
+#3-1
 import pandas as pd
 import numpy as np
-from sklearn.metrics import *
-from sklearn.preprocessing import *
-from sklearn.model_selection import *
-from sklearn.ensemble import *
+from scipy.stats import *
 
-train = pd.read_csv('dataset/P220404-01.csv')
-test = pd.read_csv('dataset/P220404-02.csv')
-test_id = test['ID']
-test= test.drop('ID',axis = 1)
+data = pd.read_csv('dataset/P230605.csv',encoding = "euc_kr")
 
-print(train.info())
+answer_1 = round((len(data[data['코드']==4])/len(data)),3)
+print(answer_1)
 
-cate_lst= ['Gender','Ever_Married','Graduated','Profession','Spending_Score','Var_1','Segmentation']
-
-for i in cate_lst:
-    if i == 'Segmentation':
-        # train[i] = LabelEncoder().fit_transform(train[i])
-        train[i] = train[i].astype('category')
-    else:
-        train[i] = LabelEncoder().fit_transform(train[i])
-        train[i] = train[i].astype('category')
-        test[i] = LabelEncoder().fit_transform(test[i])
-        test[i] = test[i].astype('category')
-train['Spending_Score'] = minmax_scale(train['Spending_Score'])
-test['Spending_Score'] = minmax_scale(test['Spending_Score'])
-print(train.isna().sum())
-print(test.isna().sum())
-
-x = train.drop(['ID','Segmentation'],axis = 1)
-y = train['Segmentation']
-
-trainX, testX, trainY, testY = train_test_split(x,y,test_size= 0.2)
-
-model = RandomForestClassifier(n_estimators = 600, max_depth = 6)
-
-model.fit(trainX,trainY)
-
-pred = model.predict(testX)
-
-print("Accuracy",accuracy_score(testY,pred))
-# print("roc_auc",roc_auc_score(testY,pred))
-print("f1score",f1_score(testY,pred,labels=['A','B','C','D'],average = 'macro'))
+print(data)
