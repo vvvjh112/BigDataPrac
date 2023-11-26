@@ -164,18 +164,18 @@
 
 
 #1-1
-# import pandas as pd
-# import numpy as np
-#
-# data = pd.read_csv('dataset/M1-1.csv')
-#
-# train = data.head(int(len(data)*0.7))
-#
-# result = train.sort_values('price',ascending = False).head(5)
-#
-# answer = int(train['depth'].median())
-#
-# print(answer)
+import pandas as pd
+import numpy as np
+
+data = pd.read_csv('dataset/M1-1.csv')
+
+train = data.head(int(len(data)*0.7))
+
+result = train.sort_values('price',ascending = False).head(5)
+
+answer = int(result['depth'].median())
+
+print(answer)
 
 #61
 
@@ -249,27 +249,27 @@
 
 
 #3-2
-import pandas as pd
-import numpy as np
-
-data = pd.read_csv('dataset/M1-6.csv')
-from scipy.stats import *
-import scipy.stats
-# print(dir(scipy.stats))
-test = shapiro(data['Temp'])
-print(test)
-result = wilcoxon(data['Temp'])
-answer1 = round(result.statistic,3)
-answer2 = round(result.pvalue,3)
-
-if result.pvalue<0.05:
-    answer3 = "기각"
-else:
-    answer3= "채택"
-
-print(answer1)
-print(answer2)
-print(answer3)
+# import pandas as pd
+# import numpy as np
+#
+# data = pd.read_csv('dataset/M1-6.csv')
+# from scipy.stats import *
+# import scipy.stats
+# # print(dir(scipy.stats))
+# test = shapiro(data['Temp'])
+# print(test)
+# result = wilcoxon(data['Temp'])
+# answer1 = round(result.statistic,3)
+# answer2 = round(result.pvalue,3)
+#
+# if result.pvalue<0.05:
+#     answer3 = "기각"
+# else:
+#     answer3= "채택"
+#
+# print(answer1)
+# print(answer2)
+# print(answer3)
 
 # 3.767
 # 0.0
