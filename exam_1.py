@@ -164,20 +164,20 @@
 
 
 #1-1
-import pandas as pd
-import numpy as np
+# import pandas as pd
+# import numpy as np
+#
+# data = pd.read_csv('dataset/M1-1.csv')
+#
+# train = data.head(int(len(data)*0.7))
+#
+# result = train.sort_values('price',ascending = False).head(5)
+#
+# answer = int(result['depth'].median())
+#
+# print(answer)
 
-data = pd.read_csv('dataset/M1-1.csv')
-
-train = data.head(int(len(data)*0.7))
-
-result = train.sort_values('price',ascending = False).head(5)
-
-answer = int(result['depth'].median())
-
-print(answer)
-
-#61
+#62
 
 #1-2
 # import pandas as pd
@@ -220,8 +220,58 @@ print(answer)
 
 
 #2
+import pandas as pd
+import numpy as np
 
+train = pd.read_csv('dataset/M1-4-1.csv')
+test = pd.read_csv('dataset/M1-4-2.csv')
 
+print(train.columns)
+test_answer = test['Churn']
+test = test.drop('Churn',axis = 1)
+cate_lst = ['gender','Partner','Dependents','PhoneService', 'MultipleLines', 'InternetService', 'OnlineSecurity',
+        'OnlineBackup', 'DeviceProtection', 'TechSupport', 'StreamingTV',
+       'StreamingMovies', 'Contract', 'PaperlessBilling', 'PaymentMethod']
+
+from sklearn.preprocessing import *
+from sklearn.model_selection import *
+from sklearn.ensemble import *
+encoder = LabelEncoder()
+train['Churn'] = encoder.fit_transform(train['Churn'])
+train['Churn'] = train['Churn'].astype('category')
+
+for i in cate_lst:
+    train[i] = LabelEncoder().fit_transform(train[i])
+    test[i] = LabelEncoder().fit_transform(test[i])
+    train[i] = train[i].astype('category')
+    test[i] = test[i].astype('category')
+print(train.info())
+
+print(train.isna().sum())
+print(test.isna().sum())
+
+x = train.drop('Churn',axis = 1)
+y = train['Churn']
+
+trainX, testX, trainY, testY = train_test_split(x,y,test_size = 0.2)
+
+model = RandomForestClassifier(n_estimators = 100)
+
+model.fit(trainX,trainY)
+
+pred = model.predict(testX)
+print(train['Churn'])
+from sklearn.metrics import *
+print("Accuracy",accuracy_score(testY,pred))
+print("f1_score",f1_score(testY,pred))
+print("Roc_Auc",roc_auc_score(testY,pred))
+
+result = model.predict(test)
+
+answer = pd.DataFrame({'pred':result})
+answer['pred'] = encoder.inverse_transform(answer['pred'])
+
+answer.to_csv('Result/모의고사1-1.csv',index= False)
 
 
 #3-1

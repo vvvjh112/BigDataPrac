@@ -138,3 +138,92 @@
 # print(answer_1)
 # print(answer_2)
 # print(answer_3)
+
+
+
+#1-1
+# import pandas as pd
+# import numpy as np
+#
+# data = pd.read_csv('dataset/M2-1.csv')
+# train = data.head(int(len(data)*0.7))
+# median1 = round(train['Ozone'].median(),1)
+# train.loc[:,'Ozone'] = train['Ozone'].fillna(train['Ozone'].mean())
+# median2 = round(train['Ozone'].median(),1)
+# answer = round(abs(median1-median2),1)
+# print(answer)
+
+#7.7
+
+#1-2
+# import pandas as pd
+# import numpy as np
+#
+# data = pd.read_csv('dataset/M2-2.csv')
+#
+# data = data[(data['HAIR'] == "White Hair") & (data['EYE'] == "Blue Eyes")]
+#
+# maxi = round(data['APPEARANCES'].mean(),2)+(round(data['APPEARANCES'].std(),2)*1.5)
+# mini = round(data['APPEARANCES'].mean(),2)-(round(data['APPEARANCES'].std(),2)*1.5)
+# data = data[(data['APPEARANCES']>mini)&(data['APPEARANCES']<maxi)]
+# answer = round(data['APPEARANCES'].mean(),2)
+# print(answer)
+#30.15
+
+
+#1-3
+# import pandas as pd
+# import numpy as np
+#
+# data = pd.read_csv('dataset/M2-3.csv')
+#
+# maxi = data['Sales'].mean()+(data['Sales'].std()*1.5)
+# mini = data['Sales'].mean()-(data['Sales'].std()*1.5)
+#
+# train = data[(data['Sales']<maxi)&(data['Sales']>mini)]
+# answer = round(train['Age'].std(),2)
+# print(answer)
+#16.05
+
+#2
+import pandas as pd
+import numpy as np
+
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder
+from sklearn.metrics import f1_score,accuracy_score,roc_auc_score,mean_squared_error
+from sklearn.ensemble import RandomForestRegressor
+
+train = pd.read_csv('dataset/M2-4-1.csv')
+test = pd.read_csv('dataset/M2-4-2.csv')
+
+print(train.columns)
+print(train.info())
+cate_lst = ['cyl','vs','am']
+
+for i in cate_lst:
+    train[i] = LabelEncoder().fit_transform(train[i])
+    test[i] = LabelEncoder().fit_transform(test[i])
+    train[i] = train[i].astype('category')
+    test[i] = test[i].astype('category')
+
+print(train.head())
+
+x = train.drop('mpg',axis = 1)
+y = train['mpg']
+
+trainX, testX, trainY, testY = train_test_split(x,y,test_size = 0.2)
+
+model = RandomForestRegressor()
+
+model.fit(trainX,trainY)
+
+pred = model.predict(testX)
+
+print("RMSE",mean_squared_error(testY, pred,squared=False))
+
+result = model.predict(test)
+
+answer = pd.DataFrame({'pred':result})
+
+answer.to_csv('Result/모의고사2-1.csv',index=False)
