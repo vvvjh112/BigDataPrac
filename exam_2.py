@@ -186,44 +186,68 @@
 #16.05
 
 #2
-import pandas as pd
+# import pandas as pd
+# import numpy as np
+#
+# from sklearn.model_selection import train_test_split
+# from sklearn.preprocessing import LabelEncoder
+# from sklearn.metrics import f1_score,accuracy_score,roc_auc_score,mean_squared_error
+# from sklearn.ensemble import RandomForestRegressor
+#
+# train = pd.read_csv('dataset/M2-4-1.csv')
+# test = pd.read_csv('dataset/M2-4-2.csv')
+#
+# print(train.columns)
+# print(train.info())
+# cate_lst = ['cyl','vs','am']
+#
+# for i in cate_lst:
+#     train[i] = LabelEncoder().fit_transform(train[i])
+#     test[i] = LabelEncoder().fit_transform(test[i])
+#     train[i] = train[i].astype('category')
+#     test[i] = test[i].astype('category')
+#
+# print(train.head())
+#
+# x = train.drop('mpg',axis = 1)
+# y = train['mpg']
+#
+# trainX, testX, trainY, testY = train_test_split(x,y,test_size = 0.2)
+#
+# model = RandomForestRegressor()
+#
+# model.fit(trainX,trainY)
+#
+# pred = model.predict(testX)
+#
+# print("RMSE",mean_squared_error(testY, pred,squared=False))
+#
+# result = model.predict(test)
+#
+# answer = pd.DataFrame({'pred':result})
+#
+# answer.to_csv('Result/모의고사2-1.csv',index=False)
+
+#3-2
 import numpy as np
+import pandas as pd
 
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import LabelEncoder
-from sklearn.metrics import f1_score,accuracy_score,roc_auc_score,mean_squared_error
-from sklearn.ensemble import RandomForestRegressor
+data = pd.DataFrame({'sex':[340,540]})
 
-train = pd.read_csv('dataset/M2-4-1.csv')
-test = pd.read_csv('dataset/M2-4-2.csv')
+from scipy.stats import *
 
-print(train.columns)
-print(train.info())
-cate_lst = ['cyl','vs','am']
+exp = [(340+540)*0.35,(340+540)*0.65]
 
-for i in cate_lst:
-    train[i] = LabelEncoder().fit_transform(train[i])
-    test[i] = LabelEncoder().fit_transform(test[i])
-    train[i] = train[i].astype('category')
-    test[i] = test[i].astype('category')
+result = chisquare(data['sex'],exp)
 
-print(train.head())
+answer1 = round(result.statistic,5)
+answer2 = round(result.pvalue,5)
 
-x = train.drop('mpg',axis = 1)
-y = train['mpg']
+if result.pvalue<0.05:
+    answer3 = "기각"
+else:
+    answer3 = "채택"
 
-trainX, testX, trainY, testY = train_test_split(x,y,test_size = 0.2)
-
-model = RandomForestRegressor()
-
-model.fit(trainX,trainY)
-
-pred = model.predict(testX)
-
-print("RMSE",mean_squared_error(testY, pred,squared=False))
-
-result = model.predict(test)
-
-answer = pd.DataFrame({'pred':result})
-
-answer.to_csv('Result/모의고사2-1.csv',index=False)
+print(answer1)
+print(answer2)
+print(answer3)
