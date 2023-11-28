@@ -187,23 +187,23 @@
 
 
 #작업형 1 - 13
-# import pandas as pd
-# import datetime
-#
-# data = pd.read_csv('dataset/P230601.csv')
-#
-# data['신고일시'] = pd.to_datetime(data['신고일시'])
-# data['출동일시'] = pd.to_datetime(data['출동일시'])
-#
-# data['time'] = (data['출동일시'] - data['신고일시']).dt.total_seconds()
-#
-# data = data.groupby([data['출동소방서'],data['신고일시'].dt.year,data['신고일시'].dt.month]).mean('time')
-#
-# data = data.sort_values('time',ascending = False)
-# result = data['time'].head(1)
-# answer = int(round(result.iloc[0]/60,0))
-#
-# print(answer)
+import pandas as pd
+import datetime
+
+data = pd.read_csv('dataset/P230601.csv')
+
+data['신고일시'] = pd.to_datetime(data['신고일시'])
+data['출동일시'] = pd.to_datetime(data['출동일시'])
+
+data['time'] = (data['출동일시'] - data['신고일시']).dt.total_seconds()
+
+data = data.groupby([data['출동소방서'],data['신고일시'].dt.year,data['신고일시'].dt.month]).mean('time')
+
+data = data.sort_values('time',ascending = False)
+result = data['time'].head(1)
+answer = int(round(result.iloc[0]/60,0))
+
+print(answer)
 
 #작업형 1 - 14
 # import pandas as pd
