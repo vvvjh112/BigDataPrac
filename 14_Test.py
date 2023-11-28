@@ -2,9 +2,6 @@ import pandas as pd
 import numpy as np
 from scipy.stats import *
 
-
-
-
 #검정 - 모집단의 평균이 표본평균과 차이가 있는지 검정하는 방법
 #모집단의 분산을 알고있는 경우 Z검정 / 모를경우 T검정
 #두 검정 모두 모집단이 정규성을 따라야 한다.
@@ -35,7 +32,7 @@ print("T검정")
 #신제품 7개의 높이가 df 유의수준 0.05 / 평균 11cm인지 아닌지 양측검정
 from scipy.stats import *
 
-df = pd.DataFrame({'height' : [12,14,16,19,11,17,13]})
+df = pd.DataFrame({'height': [12,14,16,19,11,17,13]})
 print(shapiro(df['height']))
 #(statistic=0.9641615748405457, pvalue=0.8535423278808594)
 print(ttest_1samp(df['height'],popmean = 11))

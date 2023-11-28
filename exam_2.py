@@ -140,7 +140,6 @@
 # print(answer_3)
 
 
-
 #1-1
 # import pandas as pd
 # import numpy as np
@@ -229,25 +228,23 @@
 # answer.to_csv('Result/모의고사2-1.csv',index=False)
 
 #3-2
-import numpy as np
-import pandas as pd
 
-data = pd.DataFrame({'sex':[340,540]})
-
-from scipy.stats import *
-
-exp = [(340+540)*0.35,(340+540)*0.65]
-
-result = chisquare(data['sex'],exp)
-
-answer1 = round(result.statistic,5)
-answer2 = round(result.pvalue,5)
-
-if result.pvalue<0.05:
-    answer3 = "기각"
-else:
-    answer3 = "채택"
-
-print(answer1)
-print(answer2)
-print(answer3)
+# data = pd.DataFrame({'sex':[340,540]})
+#
+# from scipy.stats import *
+#
+# exp = [(340+540)*0.35,(340+540)*0.65]
+#
+# result = chisquare(data['sex'],exp)
+#
+# answer1 = round(result.statistic,5)
+# answer2 = round(result.pvalue,5)
+#
+# if result.pvalue<0.05:
+#     answer3 = "기각"
+# else:
+#     answer3 = "채택"
+#
+# print(answer1)
+# print(answer2)
+# print(answer3)

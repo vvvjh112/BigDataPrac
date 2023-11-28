@@ -478,52 +478,52 @@
 
 
 #3-1
-# import pandas as pd
-# import numpy as np
-# from scipy.stats import *
-#
-# data = pd.read_csv('dataset/P230605.csv',encoding = "euc_kr")
-#
-# answer_1 = round((len(data[data['코드']==4])/len(data)),3)
-# print(answer_1)
-#
-# exp = pd.DataFrame({'코드':[1,2,3,4],'비율':[0.05,0.1,0.05,0.8]})
-#
-# tmp = data.groupby('코드').size().reset_index(name = '건수')
-# print(tmp.head())
-# result = chisquare(tmp['건수'], exp['비율']*len(data))
-#
-# # print(result)
-# answer_2 = round(result.statistic,3)
-# answer_3 = round(result.pvalue,3)
-#
-# print(answer_2)
-# print(answer_3)
-
-#3-2
 import pandas as pd
 import numpy as np
-from sklearn.linear_model import *
+from scipy.stats import *
 
-data = pd.read_csv('dataset/P230606.csv')
+data = pd.read_csv('dataset/P230605.csv',encoding = "euc_kr")
 
-model = LinearRegression()
-
-trainX = data[['O3','Solar','Wind']]
-trainY = data['Temperature']
-
-model.fit(trainX,trainY)
-
-answer_1 = round(model.coef_[0],3)
+answer_1 = round((len(data[data['코드']==4])/len(data)),3)
 print(answer_1)
 
-from scipy.stats import *
-import scipy.stats
-print(dir(scipy.stats))
-result = ttest_ind(trainX['Wind'],trainY)
-answer_2 = round(result.pvalue,3)
+exp = pd.DataFrame({'코드':[1,2,3,4],'비율':[0.05,0.1,0.05,0.8]})
+
+tmp = data.groupby('코드').size().reset_index(name = '건수')
+print(tmp.head())
+result = chisquare(tmp['건수'], exp['비율']*len(data))
+
+# print(result)
+answer_2 = round(result.statistic,3)
+answer_3 = round(result.pvalue,3)
+
 print(answer_2)
-test = pd.DataFrame({'O3':[10],'Solar':[90],'Wind':[20]})
-pred = model.predict(test)
-answer_3 = round(pred[0],3)
 print(answer_3)
+
+#3-2
+# import pandas as pd
+# import numpy as np
+# from sklearn.linear_model import *
+#
+# data = pd.read_csv('dataset/P230606.csv')
+#
+# model = LinearRegression()
+#
+# trainX = data[['O3','Solar','Wind']]
+# trainY = data['Temperature']
+#
+# model.fit(trainX,trainY)
+#
+# answer_1 = round(model.coef_[0],3)
+# print(answer_1)
+#
+# from scipy.stats import *
+# import scipy.stats
+# print(dir(scipy.stats))
+# result = ttest_ind(trainX['Wind'],trainY)
+# answer_2 = round(result.pvalue,3)
+# print(answer_2)
+# test = pd.DataFrame({'O3':[10],'Solar':[90],'Wind':[20]})
+# pred = model.predict(test)
+# answer_3 = round(pred[0],3)
+# print(answer_3)
