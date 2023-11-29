@@ -192,12 +192,49 @@
 # print(answer.head())
 
 #2-2
-import pandas as pd
-import numpy as np
-from sklearn.metrics import *
-from sklearn.preprocessing import LabelEncoder
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import train_test_split
+# import pandas as pd
+# import numpy as np
+# from sklearn.metrics import *
+# from sklearn.preprocessing import LabelEncoder
+# from sklearn.ensemble import RandomForestClassifier
+# from sklearn.model_selection import train_test_split
+#
+# train = pd.read_csv('dataset/P210304-01.csv')
+# test = pd.read_csv('dataset/P210304-02.csv')
+# test_X = test['X']
+# train = train.drop('X',axis = 1)
+# test = test.drop('X',axis = 1)
+#
+# print(train.columns)
+# print(train.head())
+# cate_lst = ['Employment Type', 'GraduateOrNot','FrequentFlyer', 'EverTravelledAbroad']
+# train['TravelInsurance'] = train['TravelInsurance'].astype('category')
+#
+# print(train.info())
+# lb = LabelEncoder()
+# for i in cate_lst :
+#     train[i] = lb.fit_transform(train[i])
+#     test[i] = lb.fit_transform(test[i])
+#     train[i] = train[i].astype('category')
+#     test[i] = test[i].astype('category')
+#
+# print(train.isna().sum())
+#
+# x = train.drop('TravelInsurance',axis = 1)
+# y = train['TravelInsurance']
+#
+# trainX, testX, trainY, testY = train_test_split(x,y,test_size = 0.2, random_state = 2000)
+#
+# model = RandomForestClassifier(max_depth = 8,random_state = 2000)
+#
+# model.fit(trainX, trainY)
+#
+# pred= model.predict(testX)
+#
+# print("f1_score",f1_score(testY,pred))
+# print("Roc_Auc",roc_auc_score(testY,pred))
+# print("Accuracy",accuracy_score(testY,pred))
 
-train = pd.read_csv('dataset/P210304-01.csv')
-test = pd.read_csv('dataset/P210304-02.csv')
+# result = model.predict(test)
+# answer = pd.DataFrame({'pred':result})
+# print(answer)
