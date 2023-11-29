@@ -141,3 +141,63 @@
 # result = tmp['sum'].iloc[0]
 # answer = int(result)
 # print(answer)
+
+
+#2-1
+# import pandas as pd
+# import numpy as np
+#
+# train = pd.read_csv('dataset/P210204-01.csv')
+# test = pd.read_csv('dataset/P210204-02.csv')
+# test_id = test['ID']
+#
+# train = train.drop('ID',axis = 1)
+# test = test.drop('ID',axis = 1)
+# print(train.columns)
+#
+# cate_lst = ['Warehouse_block', 'Mode_of_Shipment','Product_importance', 'Gender']
+# train['Reached.on.Time_Y.N'] = train['Reached.on.Time_Y.N'].astype('category')
+#
+# from sklearn.preprocessing import LabelEncoder
+#
+# for i in cate_lst:
+#     train[i] = LabelEncoder().fit_transform(train[i])
+#     test[i] = LabelEncoder().fit_transform(test[i])
+#     train[i] = train[i].astype('category')
+#     test[i] = test[i].astype('category')
+#
+# from sklearn.model_selection import train_test_split
+# from sklearn.metrics import *
+# from sklearn.ensemble import RandomForestClassifier
+#
+# print(train.info())
+# x = train.drop('Reached.on.Time_Y.N',axis =1)
+# y = train['Reached.on.Time_Y.N']
+#
+# model = RandomForestClassifier(max_depth = 8,random_state=2000)
+#
+# trainX, testX, trainY, testY = train_test_split(x,y,test_size = 0.1,random_state = 2000)
+#
+# model.fit(trainX,trainY)
+#
+# pred = model.predict(testX)
+#
+# print("Accuarcy",accuracy_score(testY,pred))
+# print("f1_score", f1_score (testY,pred))
+# print("Roc_Auc",roc_auc_score(testY,pred))
+#
+# result = model.predict_proba(test)
+# print(result)
+# answer = pd.DataFrame({'pred':result[:,1]})
+# print(answer.head())
+
+#2-2
+import pandas as pd
+import numpy as np
+from sklearn.metrics import *
+from sklearn.preprocessing import LabelEncoder
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
+
+train = pd.read_csv('dataset/P210304-01.csv')
+test = pd.read_csv('dataset/P210304-02.csv')
