@@ -106,25 +106,38 @@
 
 
 #1-13
-import pandas as pd
-import numpy as np
+# import pandas as pd
+# import numpy as np
+#
+# data = pd.read_csv('dataset/P230601.csv')
+#
+#
+#
+# data['신고일시'] = pd.to_datetime(data['신고일시'])
+# data['출동일시'] = pd.to_datetime(data['출동일시'])
+#
+# data['소요시간'] = data['출동일시']-data['신고일시']
+# data['소요시간'] = data['소요시간'].dt.total_seconds()
+#
+# # print(data.head())
+#
+# group = data.groupby([data['출동소방서'],data['신고일시'].dt.year, data['신고일시'].dt.month]).mean('소요시간')
+#
+# # print(group.head())
+#
+# result = group.sort_values('소요시간',ascending = False).head(1)
+# answer = result['소요시간'].iloc[0]/60
+# print(int(round(answer,0)))
 
-data = pd.read_csv('dataset/P230601.csv')
-
-
-
-data['신고일시'] = pd.to_datetime(data['신고일시'])
-data['출동일시'] = pd.to_datetime(data['출동일시'])
-
-data['소요시간'] = data['출동일시']-data['신고일시']
-data['소요시간'] = data['소요시간'].dt.total_seconds()
-
-# print(data.head())
-
-group = data.groupby([data['출동소방서'],data['신고일시'].dt.year, data['신고일시'].dt.month]).mean('소요시간')
-
-# print(group.head())
-
-result = group.sort_values('소요시간',ascending = False).head(1)
-answer = result['소요시간'].iloc[0]/60
-print(int(round(answer,0)))
+#1-15
+# import pandas as pd
+# import numpy as np
+#
+# data = pd.read_csv('dataset/P230603.csv')
+# data['sum'] = data['강력범']+data['절도범']+data['폭력범']+data['지능범']+data['풍속범']+data['기타형사범']
+# data['년월'] = pd.to_datetime(data['년월'])
+# group = data.groupby([data['년월'].dt.year]).mean('sum')
+# tmp = group.sort_values('sum',ascending = False).head(1)
+# result = tmp['sum'].iloc[0]
+# answer = int(result)
+# print(answer)

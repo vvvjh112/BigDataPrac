@@ -283,9 +283,9 @@ y = train['price_range']
 
 # x = pd.get_dummies(x)
 
-trainX, testX, trainY, testY = train_test_split(x,y,test_size=0.2)
+trainX, testX, trainY, testY = train_test_split(x,y,test_size=0.2, random_state = 2051)
 
-model = RandomForestClassifier(n_estimators = 600, max_depth = 4)
+model = RandomForestClassifier(random_state = 2051)
 
 model.fit(trainX,trainY)
 
