@@ -238,3 +238,181 @@
 # result = model.predict(test)
 # answer = pd.DataFrame({'pred':result})
 # print(answer)
+
+
+
+#3-1
+
+# import pandas as pd
+# import numpy as np
+# from scipy.stats import *
+#
+# data = pd.read_csv('dataset/P230605.csv',encoding = 'euc-kr')
+#
+# answer1 = round(len(data[data['코드']==4])/len(data),3)
+#
+# print(answer1)
+# tb = data.groupby([data['코드']]).size()
+# tb = tb.reset_index(name = '개수')
+# leng = len(data)
+# dt = pd.DataFrame({'기대값':[0.05*leng,0.1*leng,0.05*leng,0.8*leng]})
+#
+# print(tb['개수'],dt['기대값'])
+# result = chisquare(tb['개수'],dt['기대값'])
+# print(result)
+
+#3-2
+# import pandas as pd
+# from sklearn.linear_model import LinearRegression
+# from scipy.stats import *
+#
+# data = pd.read_csv('dataset/P230606.csv')
+#
+# trainX = data[['O3','Solar','Wind']]
+# trainY = data['Temperature']
+#
+# model = LinearRegression()
+# model.fit(trainX, trainY)
+#
+# coef = model.coef_[0]
+# answer1 = round(coef,3)
+# print(answer1)
+# import scipy.stats
+# # print(dir(scipy.stats))
+# # print(len(data))
+# print(levene(data['Wind'],data['Temperature']))
+# result = ttest_ind(data['Wind'],data['Temperature'])
+# print(round(result.pvalue,3))
+
+
+#1-3-1
+# import pandas as pd
+# import numpy as np
+# from scipy.stats import *
+#
+# data = pd.DataFrame({'before':[200,210,190,180,175],'after':[180,175,160,150,160]})
+#
+# result = ttest_rel(data['after'],data['before'],alternative = 'less')
+#
+# print(result)
+
+
+# �
+# ˉ
+# X
+# ˉ
+#  는 표본 평균 (51.5),
+# �
+# μ는 모평균 (50),
+# �
+# σ는 모표준편차 (알려져 있지 않으므로 표본 표준편차인 2.5를 사용),
+# �
+# n은 표본 크기 (25)입니다.
+
+# import numpy as np
+# from scipy import stats
+#
+# # 데이터
+# data = np.array([52, 50, 49, 53, 51, 52, 50, 52, 51, 53, 51, 50, 51, 50, 49, 53, 52, 51, 50, 52, 49, 51, 53, 50, 52])
+#
+# # 표본 평균, 표본 크기, 표본 표준편차 계산
+# sample_mean = np.mean(data)
+# sample_size = len(data)
+# sample_std = np.std(data, ddof=1)  # ddof=1은 비편향 표본 표준편차를 의미합니다.
+#
+# # 모평균 가정
+# population_mean = 50
+#
+# # Z-검정 통계량 계산
+# z_stat = (sample_mean - population_mean) / (sample_std / np.sqrt(sample_size))
+#
+# # 양측 검정이므로, Z-검정 임계값은 약 ±1.96
+# critical_value = 1.96
+#
+# # P-value 계산
+# p_value = 2 * (1 - stats.norm.cdf(abs(z_stat)))
+#
+# # 결과 출력
+# print(f"Z-검정 통계량: {z_stat}")
+# print(f"P-value: {p_value}")
+#
+# # 유의수준 0.05에서의 결정
+# if abs(z_stat) > critical_value:
+#     print("귀무가설을 기각합니다.")
+# else:
+#     print("귀무가설을 기각하지 않습니다.")
+
+
+
+# import pandas as pd
+# import numpy as np
+#
+# from scipy.stats import *
+#
+# a = np.array([1,2,3,4,6])
+# b = np.array([4,5,6,7,8])
+#
+# def f_test(x,y):
+#     if np.var(x,ddof = 1) < np.var(x,ddof = 1):
+#         x,y = y,x
+#
+#     f_value = np.var(x,ddof = 1)/np.var(y,ddof = 1)
+#     p_value = (1-f.cdf(f_value,x.size-1,y.size-1))*2
+#     return f_value,p_value
+#
+# stat, p = f_test(a,b)
+#
+# print(round(stat,2))
+# print(round(p,4))
+# if(p<0.05):
+#     print("대립가설채택")
+# else:
+#     print("귀무가설채택")
+
+
+
+#
+import pandas as pd
+import numpy as np
+
+from sklearn.preprocessing import LabelEncoder
+from sklearn.metrics import *
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
+
+train= pd.read_csv('dataset/P220404-01.csv')
+test = pd.read_csv('dataset/P220404-02.csv')
+
+print (train.columns)
+
+train = train.drop('ID',axis = 1)
+test = test.drop('ID',axis =1)
+
+print(train.info())
+
+cate_lst=['Gender','Ever_Married','Graduated', 'Profession','Spending_Score','Spending_Score','Var_1']
+train['Segmentation'] = train['Segmentation'].astype('category')
+
+for i in cate_lst:
+    train[i] = LabelEncoder().fit_transform(train[i])
+    test[i] = LabelEncoder().fit_transform(test[i])
+    train[i] = train[i].astype('category')
+    test[i] = test[i].astype('category')
+
+print(train.isna().sum())
+print(train.info())
+
+x = train.drop('Segmentation',axis = 1)
+y = train['Segmentation']
+
+trainX, testX, trainY, testY = train_test_split(x,y,test_size=0.2,random_state = 2000)
+
+model = RandomForestClassifier(n_estimators = 600 ,max_depth = 8,random_state=2000)
+
+model.fit(trainX,trainY)
+
+pred = model.predict(testX)
+
+print("F1_score",f1_score(testY,pred, labels = ['A','B','C','D'], average='macro'))
+print("accuracy",accuracy_score(testY,pred))
+# print("rcoauc",roc_auc_score(testY,pred))
