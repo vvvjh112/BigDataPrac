@@ -180,24 +180,30 @@
 #62
 
 #1-2
-# import pandas as pd
-# import numpy as np
-#
-# data = pd.read_csv('dataset/M1-2.csv')
-#
+import pandas as pd
+import numpy as np
+
+data = pd.read_csv('dataset/M1-2.csv')
+def drop_x(x):
+    if x == ' ':
+        return
+    else:
+        return x
+data['TotalCharges'] = data['TotalCharges'].apply(drop_x)
+data['TotalCharges'] = data['TotalCharges'].astype(float)
 # data['TotalCharges'] = pd.to_numeric(data['TotalCharges'],errors = "coerce")
-# data = data.dropna(subset=['TotalCharges'])
-#
-# print(data.isna().sum())
-#
-# maxi = data['TotalCharges'].mean()+(data['TotalCharges'].std()*1.5)
-# mini = data['TotalCharges'].mean()-(data['TotalCharges'].std()*1.5)
-#
-# result = data[(data['TotalCharges']>mini)&(data['TotalCharges']<maxi)]
-#
-# answer = int(result['TotalCharges'].mean())
-#
-# print(answer)
+data = data.dropna(subset=['TotalCharges'])
+
+print(data.isna().sum())
+
+maxi = data['TotalCharges'].mean()+(data['TotalCharges'].std()*1.5)
+mini = data['TotalCharges'].mean()-(data['TotalCharges'].std()*1.5)
+
+result = data[(data['TotalCharges']>mini)&(data['TotalCharges']<maxi)]
+
+answer = int(result['TotalCharges'].mean())
+
+print(answer)
 
 #1663
 
@@ -220,58 +226,58 @@
 
 
 #2
-import pandas as pd
-import numpy as np
-
-train = pd.read_csv('dataset/M1-4-1.csv')
-test = pd.read_csv('dataset/M1-4-2.csv')
-
-print(train.columns)
-test_answer = test['Churn']
-test = test.drop('Churn',axis = 1)
-cate_lst = ['gender','Partner','Dependents','PhoneService', 'MultipleLines', 'InternetService', 'OnlineSecurity',
-        'OnlineBackup', 'DeviceProtection', 'TechSupport', 'StreamingTV',
-       'StreamingMovies', 'Contract', 'PaperlessBilling', 'PaymentMethod']
-
-from sklearn.preprocessing import *
-from sklearn.model_selection import *
-from sklearn.ensemble import *
-encoder = LabelEncoder()
-train['Churn'] = encoder.fit_transform(train['Churn'])
-train['Churn'] = train['Churn'].astype('category')
-
-for i in cate_lst:
-    train[i] = LabelEncoder().fit_transform(train[i])
-    test[i] = LabelEncoder().fit_transform(test[i])
-    train[i] = train[i].astype('category')
-    test[i] = test[i].astype('category')
-print(train.info())
-
-print(train.isna().sum())
-print(test.isna().sum())
-
-x = train.drop('Churn',axis = 1)
-y = train['Churn']
-
-trainX, testX, trainY, testY = train_test_split(x,y,test_size = 0.2)
-
-model = RandomForestClassifier(n_estimators = 100)
-
-model.fit(trainX,trainY)
-
-pred = model.predict(testX)
-print(train['Churn'])
-from sklearn.metrics import *
-print("Accuracy",accuracy_score(testY,pred))
-print("f1_score",f1_score(testY,pred))
-print("Roc_Auc",roc_auc_score(testY,pred))
-
-result = model.predict(test)
-
-answer = pd.DataFrame({'pred':result})
-answer['pred'] = encoder.inverse_transform(answer['pred'])
-
-answer.to_csv('Result/모의고사1-1.csv',index= False)
+# import pandas as pd
+# import numpy as np
+#
+# train = pd.read_csv('dataset/M1-4-1.csv')
+# test = pd.read_csv('dataset/M1-4-2.csv')
+#
+# print(train.columns)
+# test_answer = test['Churn']
+# test = test.drop('Churn',axis = 1)
+# cate_lst = ['gender','Partner','Dependents','PhoneService', 'MultipleLines', 'InternetService', 'OnlineSecurity',
+#         'OnlineBackup', 'DeviceProtection', 'TechSupport', 'StreamingTV',
+#        'StreamingMovies', 'Contract', 'PaperlessBilling', 'PaymentMethod']
+#
+# from sklearn.preprocessing import *
+# from sklearn.model_selection import *
+# from sklearn.ensemble import *
+# encoder = LabelEncoder()
+# train['Churn'] = encoder.fit_transform(train['Churn'])
+# train['Churn'] = train['Churn'].astype('category')
+#
+# for i in cate_lst:
+#     train[i] = LabelEncoder().fit_transform(train[i])
+#     test[i] = LabelEncoder().fit_transform(test[i])
+#     train[i] = train[i].astype('category')
+#     test[i] = test[i].astype('category')
+# print(train.info())
+#
+# print(train.isna().sum())
+# print(test.isna().sum())
+#
+# x = train.drop('Churn',axis = 1)
+# y = train['Churn']
+#
+# trainX, testX, trainY, testY = train_test_split(x,y,test_size = 0.2)
+#
+# model = RandomForestClassifier(n_estimators = 100)
+#
+# model.fit(trainX,trainY)
+#
+# pred = model.predict(testX)
+# print(train['Churn'])
+# from sklearn.metrics import *
+# print("Accuracy",accuracy_score(testY,pred))
+# print("f1_score",f1_score(testY,pred))
+# print("Roc_Auc",roc_auc_score(testY,pred))
+#
+# result = model.predict(test)
+#
+# answer = pd.DataFrame({'pred':result})
+# answer['pred'] = encoder.inverse_transform(answer['pred'])
+#
+# answer.to_csv('Result/모의고사1-1.csv',index= False)
 
 
 #3-1

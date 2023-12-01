@@ -372,47 +372,174 @@
 
 
 #
-import pandas as pd
+# import pandas as pd
+# import numpy as np
+#
+# from sklearn.preprocessing import LabelEncoder
+# from sklearn.metrics import *
+# from sklearn.ensemble import RandomForestClassifier
+# from sklearn.model_selection import train_test_split
+#
+# train= pd.read_csv('dataset/P220404-01.csv')
+# test = pd.read_csv('dataset/P220404-02.csv')
+#
+# print (train.columns)
+#
+# train = train.drop('ID',axis = 1)
+# test = test.drop('ID',axis =1)
+#
+# print(train.info())
+#
+# cate_lst=['Gender','Ever_Married','Graduated', 'Profession','Spending_Score','Spending_Score','Var_1']
+# train['Segmentation'] = train['Segmentation'].astype('category')
+#
+# for i in cate_lst:
+#     train[i] = LabelEncoder().fit_transform(train[i])
+#     test[i] = LabelEncoder().fit_transform(test[i])
+#     train[i] = train[i].astype('category')
+#     test[i] = test[i].astype('category')
+#
+# print(train.isna().sum())
+# print(train.info())
+#
+# x = train.drop('Segmentation',axis = 1)
+# y = train['Segmentation']
+#
+# trainX, testX, trainY, testY = train_test_split(x,y,test_size=0.2,random_state = 2000)
+#
+# model = RandomForestClassifier(n_estimators = 600 ,max_depth = 8,random_state=2000)
+#
+# model.fit(trainX,trainY)
+#
+# pred = model.predict(testX)
+#
+# print("F1_score",f1_score(testY,pred, labels = ['A','B','C','D'], average='macro'))
+# print("accuracy",accuracy_score(testY,pred))
+# # print("rcoauc",roc_auc_score(testY,pred))
+
+
+#mean(x)-표본평균 / (표준편차/(np.sqrt(표본개수))
+#pvalue = (1-norm.cdf(위에거))*2
+
+
+# #
+# import pandas as pd
+# import numpy as np
+# data = pd.read_csv('dataset/P210201.csv')
+#
+# top10 = data.sort_values('crim',ascending = False).head(10)
+# print(top10.head(10))
+# top10 = top10['crim'].iloc[9]
+# print(top10)
+#
+# def change(x):
+#     if x>top10:
+#         return top10
+#     else:
+#         return x
+#
+# data['crim'] = data['crim'].apply(change)
+# data = data[data['age']>80]
+# print(round(data['crim'].mean(),2))
+
+
+# import pandas as pd
+# import numpy as np
+#
+# data = pd.read_csv('dataset/P210302.csv')
+#
+# tmp = data.isna().sum()/len(data)
+# print(tmp)
+# tmp = tmp.sort_values(ascending = False)
+# result = tmp.head(1)
+# answer = result.index[0]
+# print(answer)
+
+# import pandas as pd
+# import numpy as np
+#
+# data = pd.read_csv('dataset/P210303.csv')
+#
+# data = data.dropna(subset=['country','year','new_sp'])
+# data = data[data['year']==2000]
+# mean1 = data['new_sp'].mean()
+#
+# print(mean1)
+# answer = len(data[data['new_sp']>mean1])
+# print(int(answer))
+
+
+# import pandas as aspd
+# import numpy as np
+# data = pd.read_csv('dataset/P220401.csv')
+#
+# percen3 = np.percentile(data['y'],75)
+# percen1 = np.percentile(data['y'],25)
+#
+# answer = int(abs(percen3-percen1))
+# print(answer)
+
+# import pandas as pd
+# import numpy as np
+#
+# data = pd.read_csv('dataset/P220403.csv')
+# data['date_added'] = pd.to_datetime(data['date_added'])
+# print(data['date_added'])
+# answer = len(data[(data['date_added'].dt.year == 2018) & (data['date_added'].dt.month == 1) & (data['country'] == "United Kingdom")])
+# print(answer)
+
+# import pandas as pd
+# data = pd.read_csv('dataset/P230601.csv')
+#
+# data['신고일시'] = pd.to_datetime(data['신고일시'])
+# data['출동일시'] = pd.to_datetime(data['출동일시'])
+# data['소요시간'] = (data['출동일시'] - data['신고일시']).dt.total_seconds()
+#
+# print(data.head())
+#
+# gp = data.groupby([data['출동소방서'],data['신고일시'].dt.year, data['신고일시'].dt.month]).mean('소요시간')
+#
+# print(gp.head(99))
+#
+# gp = gp.sort_values('소요시간',ascending = False).head(1)
+#
+# result = gp['소요시간'].iloc[0]/60
+#
+# answer = round(result,0)
+# print(answer)
+
+# import pandas as pd
+# data = pd.read_csv('dataset/P230603.csv')
+# print(data)
+#
+# data['sum'] = data['강력범']+data['절도범']+data['폭력범']   +data['지능범']  +data['풍속범']+data ['기타형사범']
+# data['년월'] = pd.to_datetime(data['년월'])
+
+# gp = data.groupby([data['년월'].dt.year]).mean('sum').sort_values('sum',ascending = False).head(1)
+# print(gp['sum'].iloc[0])
+
+
+# import numpy as np
+# from scipy.stats import *
+#
+# x = np.array([25,27,31,23,24,30,26])
+#
+# # z = (np.mean(x)-모평균) / 표준편차 * np.sqrt(np.s\ize(x))
+#
+# p = (1-norm.cdf(z))*2
+#
+# print(z,p)
+
+
 import numpy as np
+from scipy.stats import f
+df1 = np.array([1,2,3,4,6])
+df2 = np.array([4,5,6,7,8])
+def f_test(x,y):
+    if np.var(x,ddof =1) < np.var(y,ddof =1):
+        x,y = y, x
+    f1 = np.var(x,ddof = 1) / np.var(y,ddof = 1)
+    p = (1 - f.cdf(f1,np.size(x)-1, np.size(y)-1))*2
+    return f1,p
 
-from sklearn.preprocessing import LabelEncoder
-from sklearn.metrics import *
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import train_test_split
-
-train= pd.read_csv('dataset/P220404-01.csv')
-test = pd.read_csv('dataset/P220404-02.csv')
-
-print (train.columns)
-
-train = train.drop('ID',axis = 1)
-test = test.drop('ID',axis =1)
-
-print(train.info())
-
-cate_lst=['Gender','Ever_Married','Graduated', 'Profession','Spending_Score','Spending_Score','Var_1']
-train['Segmentation'] = train['Segmentation'].astype('category')
-
-for i in cate_lst:
-    train[i] = LabelEncoder().fit_transform(train[i])
-    test[i] = LabelEncoder().fit_transform(test[i])
-    train[i] = train[i].astype('category')
-    test[i] = test[i].astype('category')
-
-print(train.isna().sum())
-print(train.info())
-
-x = train.drop('Segmentation',axis = 1)
-y = train['Segmentation']
-
-trainX, testX, trainY, testY = train_test_split(x,y,test_size=0.2,random_state = 2000)
-
-model = RandomForestClassifier(n_estimators = 600 ,max_depth = 8,random_state=2000)
-
-model.fit(trainX,trainY)
-
-pred = model.predict(testX)
-
-print("F1_score",f1_score(testY,pred, labels = ['A','B','C','D'], average='macro'))
-print("accuracy",accuracy_score(testY,pred))
-# print("rcoauc",roc_auc_score(testY,pred))
+print(f_test(df1,df2))
