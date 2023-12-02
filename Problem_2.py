@@ -224,30 +224,43 @@ for i in int_lst:
 # print(train.info())
 #
 # print(train.isna().sum())
+mm = MinMaxScaler()
 
+x1 = train.drop('price',axis = 1)
+y1 = train['price']
+
+train['price'] = mm.fit_transform(train[['price']])
 x = train.drop('price',axis = 1)
 y = train['price']
 
 trainX, testX, trainY, testY = train_test_split(x,y,test_size=0.2)
+trainX1, testX1, trainY1, testY1 = train_test_split(x1,y1,test_size=0.2)
 
 model = RandomForestRegressor(n_estimators = 600, max_depth = 4)
-model1 = LinearRegression()
+model1 = RandomForestRegressor(n_estimators = 600, max_depth = 4)
 model.fit(trainX,trainY)
-model1.fit(trainX,trainY)
+model1.fit(trainX1,trainY1)
 pred = model.predict(testX)
-# print(model1.feature_names_in_)
-print(model1.intercept_)
-print("Root Mean Squared Error", mean_squared_error(testY,pred,squared = False))
+pred1 = model1.predict(testX1)
 
-model.fit(x,y)
+
+print("Root Mean Squared Error", mean_squared_error(testY,pred,squared = False))
+print("Root Mean Squared Error1", mean_squared_error(testY1,pred1,squared = False))
+
 
 pred = model.predict(test)
+pred1 = model1.predict(test)
+
+result1 = pd.DataFrame({"pred":pred1})
+
+
 
 result = pd.DataFrame({"pred":pred})
-
+result['pred'] = mm.inverse_transform(result[['pred']])
 print(result)
 #
-# result.to_csv("Result/Problem2-4.csv",index = False)
+result1.to_csv("Result/Problem2-41.csv",index = False)
+result.to_csv("Result/Problem2-4.csv",index = False)
 
 
 #2 - 5
